@@ -18,20 +18,34 @@ class _CheckOutState extends State<CheckOut> {
         title: Text('CheckOut'),
       ),
       body: Consumer<Cart>(builder: ((context, cart, child) {
-        return ListView.builder(
-            itemCount: cart.basketitem.length,
-            itemBuilder: (context, index) {
-              return Card(
-                  child: ListTile(
-                title: Text(cart.basketitem[index].name),
-                trailing: IconButton(
-                  onPressed: () {
-                    cart.remove(cart.basketitem[index]);
-                  },
-                  icon: Icon(Icons.remove),
-                ),
-              ));
-            });
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                  itemCount: cart.basketitem.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        child: ListTile(
+                      title: Text(cart.basketitem[index].name),
+                      trailing: IconButton(
+                        onPressed: () {
+                          cart.remove(cart.basketitem[index]);
+                        },
+                        icon: Icon(Icons.remove),
+                      ),
+                    ));
+                  }),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Consumer<Cart>(
+              builder: ((context, cart, child) {
+                return Text('Total Price' + " " + cart.totalprice.toString());
+              }),
+            ),
+          ],
+        );
       })),
     );
   }
